@@ -9,6 +9,7 @@ import companiesStack from "./companies";
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
 import { MaterialCommunityIcons, MaterialIcons } from 'react-native-vector-icons';
 import ordersStack from "./orders";
+import QRCodeReader from "../../screens/signedIn/checks/QRCodeReader";
 import checksStack from "./checks";
 
 const signedIn = createMaterialBottomTabNavigator();
