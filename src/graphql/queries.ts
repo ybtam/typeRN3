@@ -173,6 +173,34 @@ export const orders_query = gql`
 }
 `;
 
+export const order_query = gql`
+query($id: Float!){
+  order(order:{id:$id}){
+    id
+    delivery
+    deliveryCost
+    subtotal
+    total
+    company{
+      id
+      name
+    }
+    orderProducts{
+        id
+        product{
+            id
+            code
+            nowPrice{
+                price
+            }
+        }
+        quantity
+        total
+    }
+  }
+}
+`;
+
 export const checkIns_query = gql`
 {
     checkIns{

@@ -60,6 +60,12 @@ export const createProjectMutation = gql`
     }
 `;
 
+export const createTaskMutation = gql`
+    mutation($id: Float!, $title: String!){
+        createTask(data:{id:$id, title:$title})
+    }
+`;
+
 export const checkInMutation = gql`
     mutation {
       checkIn{
@@ -82,5 +88,13 @@ export const checkOutMutation = gql`
 export const setTaskStatusMutation = gql`
     mutation($id: Float!){
         setTaskStatus(task:{id: $id})
+    }
+`;
+
+export const createOrderMutation = gql`
+    mutation{
+        createOrder{
+            id
+        }
     }
 `;
