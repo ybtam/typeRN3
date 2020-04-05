@@ -17,7 +17,9 @@ const signedIn = createMaterialBottomTabNavigator();
 export default function signedInNavigator() {
 
     return(
-        <signedIn.Navigator style={{ backgroundColor: 'tomato' }}>
+        <signedIn.Navigator
+            style={{ backgroundColor: 'tomato' }}
+        >
             <signedIn.Screen name={"Projects"} component={projectsStack} options={{
                 tabBarIcon: ({ color }) => (
                     <MaterialIcons name="assignment" color={color} size={26} />

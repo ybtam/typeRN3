@@ -1,9 +1,10 @@
 import React from "react";
 import {Button, Card, ListItem, Text} from "react-native-elements"
 import {useQuery} from "@apollo/client";
-import {FlatList, RefreshControl, View} from "react-native";
+import {FlatList, RefreshControl, ScrollView, View} from "react-native";
 import {projectsQuery} from "../../../graphql/queries";
 import {project} from "../../../interfaces";
+import {tabScreenStyle} from "../../../styles";
 
 export default function Projects ({navigation:{navigate}}) {
     const {loading, error, data, refetch, networkStatus} = useQuery(projectsQuery, {
@@ -17,15 +18,17 @@ export default function Projects ({navigation:{navigate}}) {
     const {myProjects} = data;
 
     if (!myProjects) return(
-        <RefreshControl refreshing={loading} onRefresh={refetch}>
-            <View>
+        <ScrollView refreshControl={<RefreshControl refreshing={loading} onRefresh={refetch}/>}>
+            <View
+                style={tabScreenStyle.container}
+            >
                 <Button
                     title={"Add Project"}
                     onPress={()=>navigate("AddProject")}
                 />
                 <Text h3>You have no projects.</Text>
             </View>
-        </RefreshControl>
+        </ScrollView>
     );
 
     //render item for flatlist
@@ -47,20 +50,21 @@ export default function Projects ({navigation:{navigate}}) {
     );
 
     return(
-        <RefreshControl refreshing={loading} onRefresh={refetch}>
-            <View>
-                <Button
-                    title={"Add Project"}
-                    onPress={()=>navigate("AddProject")}
+        <View
+            style={tabScreenStyle.container}
+        >
+            <Button
+                title={"Add Project"}
+                onPress={()=>navigate("AddProject")}
+            />
+            <Card>
+                <FlatList
+                    data={myProjects.map(myProject => ({...myProject, key:myProject.id.toString()}))}
+                    renderItem={renderItem}
+                    refreshControl={<RefreshControl refreshing={loading} onRefresh={refetch}/>}
                 />
-                <Card>
-                    <FlatList
-                        data={myProjects.map(myProject => ({...myProject, key:myProject.id.toString()}))}
-                        renderItem={renderItem}
-                    />
-                </Card>
-            </View>
-        </RefreshControl>
+            </Card>
+        </View>
     );
 }
 

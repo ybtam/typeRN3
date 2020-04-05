@@ -1,8 +1,9 @@
 import React from "react";
-import {ListItem, Text} from "react-native-elements";
+import {Button, ListItem, Text} from "react-native-elements";
 import {ApolloError, useQuery} from "@apollo/client";
-import {FlatList, RefreshControl} from "react-native";
+import {FlatList, RefreshControl, View} from "react-native";
 import {categoryQuery, productsQuery} from "../../../graphql/queries";
+import {tabScreenStyle} from "../../../styles";
 
 interface price{
     price: number
@@ -68,26 +69,31 @@ export default function Products({route: {params}, navigation:{navigate}}) {
     }
 
     return(
-        <FlatList
-            data={
-                products.map(product => ({...product, key:product.id.toString()}))
-            }
-            renderItem={
-                ({item}:{item: product}) =>
-                    <ListItem
-                        title={item.code}
-                        rightTitle={item.nowPrice[0].price + " zł"}
-                        subtitle={item.category.name}
-                        onPress={() => navigate("Product", {
-                            code: item.code,
-                        })}
-                        bottomDivider
-                        chevron
-                    />
-            }
-            refreshControl={
-                <RefreshControl refreshing={loading} onRefresh={refetch}/>
-            }
-        />
-    );
+        <View
+            style={ tabScreenStyle.container }
+        >
+            <Button title={"Add product"}/>
+            <FlatList
+                data={
+                    products.map(product => ({...product, key:product.id.toString()}))
+                }
+                renderItem={
+                    ({item}:{item: product}) =>
+                        <ListItem
+                            title={item.code}
+                            rightTitle={item.nowPrice[0].price + " zł"}
+                            subtitle={item.category.name}
+                            onPress={() => navigate("Product", {
+                                code: item.code,
+                            })}
+                            bottomDivider
+                            chevron
+                        />
+                }
+                refreshControl={
+                    <RefreshControl refreshing={loading} onRefresh={refetch}/>
+                }
+            />
+        </View>
+);
 }
