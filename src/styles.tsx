@@ -8,8 +8,16 @@ export const textInputArea = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+
     textFieldContainer:{
         width: 200,
         marginTop:10
     }
+});
+
+export const tabScreenStyle = StyleSheet.create({
+    container:{
+        flex: 1,
+        // justifyContent: 'space-between'
+    },
 });
