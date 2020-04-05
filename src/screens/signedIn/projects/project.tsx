@@ -3,32 +3,20 @@ import {Button, Card, ListItem, Text} from "react-native-elements";
 import {FlatList, RefreshControl, ScrollView, View} from "react-native";
 import {useMutation, useQuery} from "@apollo/client";
 import {project_query} from "../../../graphql/queries";
-import {setTaskStatusMutation} from "../../../graphql/mutations";
+import {task} from "../../../interfaces";
+import TaskListItem from "../../../components/taskListItem";
 
-interface task {
-    id: number,
-    title: string,
-    completed: boolean
-}
-
-export default function Project({route:{params}, navigation:{setOptions}}) {
-
-    const {id, name} = params;
-
+export default function Project({route:{params:{id, name}}, navigation:{navigate, setOptions}}) {
     setOptions({
         title: name
     });
 
-    const {data, loading, error, refetch, networkStatus} = useQuery(project_query, {
+    const {data, loading, error, refetch} = useQuery(project_query, {
         variables: {
             id: id
         },
         notifyOnNetworkStatusChange: true
     });
-
-    const [setTaskStatusFunction] = useMutation(setTaskStatusMutation);
-
-    if (networkStatus === 4) return null;
 
     if (loading || !data) return null;
 
@@ -36,11 +24,15 @@ export default function Project({route:{params}, navigation:{setOptions}}) {
 
     const {project:{tasks}} = data;
 
-    console.log(tasks);
+    //todo add a conditional render to this
 
     return(
         <View>
-            <Button title={"Add new task"}/>
+            <Button
+                title={"Add new task"}
+                onPress={()=>navigate("AddTask", {
+                    id: id
+                })}/>
             <Card>
                 <FlatList
                     data={
@@ -49,28 +41,7 @@ export default function Project({route:{params}, navigation:{setOptions}}) {
 
                     renderItem={
                         ({item}:{item: task}) =>
-                            <ListItem
-                                title={item.title}
-                                bottomDivider
-                                checkBox={{
-                                    checked:item.completed,
-                                    onPress: async () => {
-                                        try {
-                                            console.log(item);
-
-                                            const response = await setTaskStatusFunction({variables:{id: item.id}});
-                                            const {setTaskStatus} = response.data;
-
-                                            console.log(setTaskStatus);
-
-                                            // if (setTaskStatus) await refetch();
-                                        }catch (e) {
-                                            console.log(e);
-                                        }
-
-                                    }
-                                }}
-                            />
+                            <TaskListItem item={item}/>
                     }
                     refreshControl={
                         <RefreshControl
@@ -78,6 +49,7 @@ export default function Project({route:{params}, navigation:{setOptions}}) {
                             onRefresh={refetch}
                         />
                     }
+
                 />
             </Card>
         </View>
