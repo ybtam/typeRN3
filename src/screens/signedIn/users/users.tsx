@@ -1,5 +1,5 @@
 import React from "react";
-import {FlatList, RefreshControl, Text} from "react-native";
+import {FlatList, RefreshControl, Text, View} from "react-native";
 import {useQuery} from "@apollo/client";
 import {Card, ListItem} from "react-native-elements";
 import {meQuery, usersQuery} from "../../../graphql/queries";
@@ -19,13 +19,16 @@ export default function Users({navigation:{navigate}}) {
     const {users} = data;
 
     return(
-        <Card>
-            <FlatList
-                data={
-                    users.map(user => ({...user, key:user.id.toString()}))
-                }
-                renderItem={
-                    ({item}:{item:user}) => <ListItem
+        <View
+            style={{ flex: 1, justifyContent: 'space-between' }}
+        >
+            <Card>
+                <FlatList
+                    data={
+                        users.map(user => ({...user, key:user.id.toString()}))
+                    }
+                    renderItem={
+                        ({item}:{item:user}) => <ListItem
                             title={item.name}
                             subtitle={item.email}
                             onPress={() => navigate("User", {
@@ -36,12 +39,14 @@ export default function Users({navigation:{navigate}}) {
                             bottomDivider
                             chevron
                         />
-                }
-                refreshControl={
-                    <RefreshControl refreshing={loading} onRefresh={refetch}/>
-                }
-            />
-        </Card>
+                    }
+                    refreshControl={
+                        <RefreshControl refreshing={loading} onRefresh={refetch}/>
+                    }
+                />
+            </Card>
+        </View>
+
     )
 }
 
