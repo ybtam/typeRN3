@@ -17,7 +17,7 @@ const defaultState1 = {
     isSubmitting: false,
 };
 
-export default function AddCompany({navigation:{navigate}}) {
+export default function AddCompany({navigation:{goBack}}) {
 
     const [createCompanyFunction] = useMutation(createCompanyMutation);
     const {values, handleChange, setValues} = useForm(defaultState);
@@ -65,16 +65,11 @@ export default function AddCompany({navigation:{navigate}}) {
         setValues(defaultState);
         setValues1(defaultState1);
 
-        navigate('Companies');
+        goBack();
     }
 
     return (
-        <View style={{
-            flex: 1,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}>
+        <View style={textInputArea.container}>
             <Text h2>Add New Company</Text>
             <View style={textInputArea.textFieldContainer}>
                 <TextField value={values.name} name="name" placeholder="Name" onChangeText={handleChange}/>
