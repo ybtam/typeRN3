@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {Button, Card, ListItem, Text} from "react-native-elements";
 import {FlatList, RefreshControl, ScrollView, View} from "react-native";
 import {useMutation, useQuery} from "@apollo/client";
 import {project_query} from "../../../graphql/queries";
 import {task} from "../../../interfaces";
-import TaskListItem from "../../../components/taskListItem";
+import TaskListItem from "../../../components/signedIn/projects/taskListItem";
+import {useFocusEffect} from "@react-navigation/native";
 
 export default function Project({route:{params:{id, name}}, navigation:{navigate, setOptions}}) {
     setOptions({
@@ -17,6 +18,12 @@ export default function Project({route:{params:{id, name}}, navigation:{navigate
         },
         notifyOnNetworkStatusChange: true
     });
+
+    useFocusEffect(
+        useCallback(()=>{
+            refetch().then();
+        },[])
+    );
 
     if (loading || !data) return null;
 
@@ -49,6 +56,7 @@ export default function Project({route:{params:{id, name}}, navigation:{navigate
                             onRefresh={refetch}
                         />
                     }
+                    ListEmptyComponent={<Text>No tasks</Text>}
 
                 />
             </Card>

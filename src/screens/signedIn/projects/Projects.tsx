@@ -1,15 +1,22 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {Button, Card, ListItem, Text} from "react-native-elements"
 import {useQuery} from "@apollo/client";
 import {FlatList, RefreshControl, ScrollView, View} from "react-native";
 import {projectsQuery} from "../../../graphql/queries";
 import {project} from "../../../interfaces";
 import {tabScreenStyle} from "../../../styles";
+import {useFocusEffect} from "@react-navigation/native";
 
 export default function Projects ({navigation:{navigate}}) {
     const {loading, error, data, refetch, networkStatus} = useQuery(projectsQuery, {
         notifyOnNetworkStatusChange: true
     });
+
+    useFocusEffect(
+        useCallback(()=>{
+            refetch().then();
+        },[])
+    );
 
     if (networkStatus === 4) return null;
     if (loading || !data) return null;
