@@ -1,21 +1,27 @@
-import {Header, ListItem, Text} from "react-native-elements";
-import React from "react";
-import {FlatList, View} from "react-native";
+import {Button, Header, ListItem, Text} from "react-native-elements";
+import React, {useCallback} from "react";
+import {FlatList, RefreshControl, View} from "react-native";
 import {useQuery} from "@apollo/client";
 import {categoriesQuery} from "../../../graphql/queries";
+import {useFocusEffect} from "@react-navigation/native";
+import {category} from "../../../interfaces";
+import CategoriesOverlay from "../../../components/signedIn/products/categoriesOverlay";
 
-interface category {
-    id: number,
-    name: string,
-    description: string,
+interface categoriesData {
+    categories: category[]
 }
 
 export default function Categories({navigation:{navigate}}) {
 
-    const {data, loading, error} = useQuery(categoriesQuery);
+    const {data, loading, error, refetch} = useQuery<categoriesData>(categoriesQuery);
+
+    useFocusEffect(
+        useCallback(()=>{
+            refetch().then();
+        },[])
+    );
 
     if (loading) return null;
-
     if (error) {
         console.info(error);
         return null;
@@ -25,6 +31,7 @@ export default function Categories({navigation:{navigate}}) {
 
     return(
         <View>
+            <Button title={"Create a new category"} onPress={()=>navigate("CreateCategory")}/>
             <ListItem
                 title={"All"}
                 onPress={() => navigate("Products", {categoryId: 0})}
@@ -46,6 +53,7 @@ export default function Categories({navigation:{navigate}}) {
                             chevron
                         />
                 }
+                refreshControl={<RefreshControl refreshing={loading} onRefresh={refetch}/> }
             />
         </View>
     )
