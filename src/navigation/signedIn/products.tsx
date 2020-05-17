@@ -4,6 +4,8 @@ import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs
 import Products from "../../screens/signedIn/products/products";
 import Categories from "../../screens/signedIn/products/categories";
 import React from "react";
+import AddCategory from "../../screens/signedIn/products/addCategory";
+import AddProduct from "../../screens/signedIn/products/addProduct";
 
 const product = createStackNavigator();
 
@@ -12,6 +14,8 @@ export default function productStack() {
         <product.Navigator>
             <product.Screen name={"ProductsTab"} component={productsTab} options={{title: "Products",}}/>
             <product.Screen name={"Product"} component={Product}/>
+            <product.Screen name={"CreateCategory"} component={AddCategory}/>
+            <product.Screen name={"AddProduct"} component={AddProduct}/>
         </product.Navigator>
     )
 }
