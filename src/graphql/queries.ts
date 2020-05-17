@@ -107,6 +107,19 @@ export const userQuery = gql`
     }
 `;
 
+export const otherUsersQuery = gql`
+{
+    otherUsers{
+        id
+        firstName
+        lastName
+        name
+        email
+        phone
+    }
+}
+`;
+
 export const meQuery = gql`
     {
         me{

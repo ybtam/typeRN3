@@ -39,8 +39,19 @@ export const signUpMutation = gql`
     }
 `;
 
+export const updateUserMutation = gql`
+    mutation($user:UserInput!){
+        updateUser(user:$user){
+            firstName
+            lastName
+            email
+            phone
+        }
+    }
+`;
+
 export const refreshTokenMutation = gql`
-    mutation {
+    mutation{
       refreshToken
     }
 `;
@@ -96,5 +107,27 @@ export const createOrderMutation = gql`
         createOrder{
             id
         }
+    }
+`;
+
+export const addProductToOrderMutation = gql`
+    mutation($orderId: Float!, $productId: Float!, $quantity: Float!){
+      addProductToOrder(data:{orderId:$orderId, productId: $productId, quantity: $quantity})
+    }
+`;
+
+export const setCustomerToOrderMutation = gql`
+    mutation($orderId: Float!, $companyId: Float!){
+      setCustomerToOrder(data:{orderId:$orderId, companyId: $companyId})
+    }
+`;
+
+export const createCategoryMutation = gql`
+    mutation($category:CategoryInput!) {
+      createCategory(category: $category){
+        id
+        name
+        description
+      }
     }
 `;
