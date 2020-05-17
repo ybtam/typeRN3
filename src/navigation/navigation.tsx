@@ -4,8 +4,8 @@ import {NavigationContainer} from "@react-navigation/native";
 
 import CheckToken from "../screens/checkToken";
 import signedOutNavigator from "./signedOut";
-import signedInNavigator from "./signedIn/signedIn";
 import {AsyncStorage} from "react-native";
+import signedInNavigator from "./singnedIn";
 
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 

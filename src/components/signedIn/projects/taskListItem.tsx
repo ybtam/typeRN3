@@ -1,7 +1,7 @@
 import React, {PureComponent, useState} from "react";
 import {ListItem} from "react-native-elements";
 import {useMutation} from "@apollo/client";
-import {setTaskStatusMutation} from "../graphql/mutations";
+import {setTaskStatusMutation} from "../../../graphql/mutations";
 
 export default function TaskListItem({item}) {
     const [setTaskStatusFunction] = useMutation(setTaskStatusMutation);

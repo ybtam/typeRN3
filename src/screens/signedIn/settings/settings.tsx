@@ -1,7 +1,7 @@
 import React from "react";
 import {Button} from "react-native-elements";
 import {View} from "react-native";
-import LogOutButton from "../../../components/logOut";
+import LogOutButton from "../../../components/signedIn/logOut";
 
 export default function Settings ({navigation:{navigate}}){
 

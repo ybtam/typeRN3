@@ -3,18 +3,21 @@ import Companies from "../../screens/signedIn/companies/companies";
 import React from "react";
 import productStack from "./products";
 import projectsStack from "./projects";
-import usersStack from "./users";
-import settingsStack from "./settings";
+import usersStack from "./other/users";
+import settingsStack from "./other/settings";
 import companiesStack from "./companies";
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
+// @ts-ignore
 import { MaterialCommunityIcons, MaterialIcons } from 'react-native-vector-icons';
 import ordersStack from "./orders";
 import QRCodeReader from "../../screens/signedIn/checks/QRCodeReader";
 import checksStack from "./checks";
+import otherStack from "./other/other";
+import QRStack from "./QR";
 
 const signedIn = createMaterialBottomTabNavigator();
 
-export default function signedInNavigator() {
+export default function signedInTabNavigator() {
 
     return(
         <signedIn.Navigator
@@ -25,19 +28,9 @@ export default function signedInNavigator() {
                     <MaterialIcons name="assignment" color={color} size={26} />
                 ),
             }}/>
-            <signedIn.Screen name={"Users"} component={usersStack} options={{
-                tabBarIcon: ({ color }) => (
-                    <MaterialCommunityIcons name="account" color={color} size={26} />
-                ),
-            }}/>
             <signedIn.Screen name={"Products"} component={productStack} options={{
                 tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons name="database" color={color} size={26} />
-                ),
-            }}/>
-            <signedIn.Screen name={"Companies"} component={companiesStack} options={{
-                tabBarIcon: ({ color }) => (
-                    <MaterialCommunityIcons name="domain" color={color} size={26} />
                 ),
             }}/>
             <signedIn.Screen name={"Orders"} component={ordersStack} options={{
@@ -45,17 +38,17 @@ export default function signedInNavigator() {
                     <MaterialIcons name="description" color={color} size={26} />
                 ),
             }}/>
-            <signedIn.Screen name={"Settings"} component={settingsStack} options={{
-                tabBarIcon: ({ color }) => (
-                    <MaterialCommunityIcons name="cogs" color={color} size={26} />
-                ),
-            }}/>
-
-            <signedIn.Screen name={"Checks"} component={checksStack} options={{
+            <signedIn.Screen name={"QR"} component={QRStack} options={{
                 tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons name="qrcode" color={color} size={26} />
                 ),
             }}/>
+            <signedIn.Screen name={"Other"} component={otherStack} options={{
+                tabBarIcon: ({ color }) => (
+                    <MaterialCommunityIcons name="dots-vertical" color={color} size={26} />
+                ),
+            }}/>
+
 
         </signedIn.Navigator>
     )

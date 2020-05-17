@@ -6,7 +6,7 @@ import {orders_query} from "../../../graphql/queries";
 import {order} from "../../../interfaces";
 import {createOrderMutation} from "../../../graphql/mutations";
 import {useForm} from "../../../hooks/useForm";
-import OrderListItem from "../../../components/orderListItem";
+import OrderListItem from "../../../components/signedIn/orders/orderListItem";
 import {tabScreenStyle} from "../../../styles";
 
 const defaultState1 = {

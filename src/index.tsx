@@ -14,11 +14,9 @@ const client = new ApolloClient({
 });
 
 export default () => (
-    // <View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
         <ApolloProvider client={client}>
             <ThemeProvider>
                 <AppNavigator/>
             </ThemeProvider>
         </ApolloProvider>
-    // </View>
 );

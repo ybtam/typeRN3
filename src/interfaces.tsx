@@ -1,12 +1,16 @@
 export interface user {
     id:number,
     name: string,
+    firstName: string,
+    lastName: string,
+    phone: number
     email: string,
 }
 
 export interface company {
     id: number,
-    name: string
+    name: string,
+    nip: number
 }
 
 export interface order {

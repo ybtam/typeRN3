@@ -53,10 +53,7 @@ export default function AddProject({navigation:{navigate}}) {
         setValues(defaultState);
         setValues1(defaultState1);
 
-        navigate('Project',{
-            id: createProject.id,
-            name: createProject.name,
-        });
+        navigate('Projects');
     }
 
     return (

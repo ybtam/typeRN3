@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {ListItem} from "react-native-elements";
 import {useNavigation} from "@react-navigation/native";
 

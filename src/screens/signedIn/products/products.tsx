@@ -4,26 +4,13 @@ import {ApolloError, useQuery} from "@apollo/client";
 import {FlatList, RefreshControl, View} from "react-native";
 import {categoryQuery, productsQuery} from "../../../graphql/queries";
 import {tabScreenStyle} from "../../../styles";
-
-interface price{
-    price: number
-}
-
-interface category{
-    id: number,
-    name: string
-}
-
-interface product {
-    code: string,
-    description, string,
-    nowPrice: [price]
-    category: category
-}
+import {product} from "../../../interfaces";
 
 export default function Products({route: {params}, navigation:{navigate}}) {
     let data: any | undefined, loading: boolean, error: ApolloError | undefined, refetch:any;
     let products;
+
+    //todo fix this part so that it would only fetch data once and filter locally
 
     if (params) {
         const {categoryId} = params;
@@ -67,12 +54,12 @@ export default function Products({route: {params}, navigation:{navigate}}) {
         }
         ({products} = data);
     }
-
+    //todo add product function
     return(
         <View
             style={ tabScreenStyle.container }
         >
-            <Button title={"Add product"}/>
+            <Button title={"Add product"} onPress={()=>navigate("AddProduct")}/>
             <FlatList
                 data={
                     products.map(product => ({...product, key:product.id.toString()}))
@@ -81,7 +68,7 @@ export default function Products({route: {params}, navigation:{navigate}}) {
                     ({item}:{item: product}) =>
                         <ListItem
                             title={item.code}
-                            rightTitle={item.nowPrice[0].price + " zł"}
+                            rightTitle={item.nowPrice.price.toFixed(2) + " zł"}
                             subtitle={item.category.name}
                             onPress={() => navigate("Product", {
                                 code: item.code,

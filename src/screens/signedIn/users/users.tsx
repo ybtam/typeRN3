@@ -2,11 +2,11 @@ import React from "react";
 import {FlatList, RefreshControl, Text, View} from "react-native";
 import {useQuery} from "@apollo/client";
 import {Card, ListItem} from "react-native-elements";
-import {meQuery, usersQuery} from "../../../graphql/queries";
+import {meQuery, otherUsersQuery, usersQuery} from "../../../graphql/queries";
 import {user} from "../../../interfaces";
 
 export default function Users({navigation:{navigate}}) {
-    const {data, loading, error, refetch, networkStatus} = useQuery(usersQuery, {
+    const {data, loading, error, refetch, networkStatus} = useQuery(otherUsersQuery, {
         notifyOnNetworkStatusChange: true
     });
 
@@ -16,7 +16,7 @@ export default function Users({navigation:{navigate}}) {
 
     if (error) return <Text>{error}</Text>;
 
-    const {users} = data;
+    const {otherUsers} = data;
 
     return(
         <View
@@ -25,7 +25,7 @@ export default function Users({navigation:{navigate}}) {
             <Card>
                 <FlatList
                     data={
-                        users.map(user => ({...user, key:user.id.toString()}))
+                        otherUsers.map(user => ({...user, key:user.id.toString()}))
                     }
                     renderItem={
                         ({item}:{item:user}) => <ListItem
@@ -34,7 +34,10 @@ export default function Users({navigation:{navigate}}) {
                             onPress={() => navigate("User", {
                                 id: item.id,
                                 name: item.name,
-                                email: item.email
+                                firstName: item.firstName,
+                                lastName: item.lastName,
+                                email: item.email,
+                                phone: item.phone
                             })}
                             bottomDivider
                             chevron

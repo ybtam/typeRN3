@@ -4,12 +4,7 @@ import {companies_query} from "../../../graphql/queries";
 import {Button, Card, ListItem, Overlay, Text} from "react-native-elements";
 import {FlatList, View} from "react-native";
 import {useFocusEffect} from "@react-navigation/native";
-
-interface company {
-    id: number,
-    name: string,
-    nip: number
-}
+import {company} from "../../../interfaces";
 
 export default function Companies({navigation:{navigate}}) {
     const {data, loading, error, refetch} = useQuery(companies_query);

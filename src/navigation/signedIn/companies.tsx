@@ -8,7 +8,7 @@ const companies = createStackNavigator();
 
 export default function companiesStack() {
     return(
-        <companies.Navigator>
+        <companies.Navigator screenOptions={{headerShown: false}}>
             <companies.Screen name={"Companies"} component={Companies}/>
             <companies.Screen name={"AddCompany"} component={AddCompany} options={{title:"Add new company"}}/>
             <companies.Screen name={"Company"} component={Company}/>

@@ -3,11 +3,10 @@ import React from "react";
 import {useQuery} from "@apollo/client";
 import {FlatList} from "react-native";
 import {productQuery} from "../../../graphql/queries";
+import {price, product} from "../../../interfaces";
 
-interface allPrices {
-    id: number
-    price: number;
-    createAt: Date;
+interface productData{
+    product: product
 }
 
 export default function Product({route: {params}, navigation:{setOptions}}) {
@@ -17,7 +16,7 @@ export default function Product({route: {params}, navigation:{setOptions}}) {
         title: code
     });
 
-    const {data, error, loading} = useQuery(productQuery, {
+    const {data, error, loading} = useQuery<productData>(productQuery, {
         variables: {
             code: code
         }
@@ -27,7 +26,7 @@ export default function Product({route: {params}, navigation:{setOptions}}) {
 
     if (error) return <Text>{error}</Text>;
 
-    const {product:{id, description, allPrices, category, nowPrice}} = data;
+    const {product:{description, allPrices, category, nowPrice}} = data;
 
     return(
         <Card
@@ -51,11 +50,11 @@ export default function Product({route: {params}, navigation:{setOptions}}) {
                     allPrices.map(price => ({...price, key:price.id.toString()}))
                 }
                 renderItem={
-                    ({item}:{item: allPrices}) => {
+                    ({item}:{item: price}) => {
 
                         const createAt = new Date(item.createAt);
 
-                        if (item.id == nowPrice[0].id) return (<ListItem
+                        if (item.id == nowPrice.id) return (<ListItem
                             title={item.price + " zł"}
                             subtitle={"Current prize"}
                             rightSubtitle={createAt.getDay()+'.'+createAt.getDate()+'.'+createAt.getFullYear()}
