@@ -11,8 +11,8 @@ const logOutMutation = gql`
 
 export default function LogOutButton({buttonStyle}) {
 
-    const [logOut] = useMutation(logOutMutation);
-    const navigation = useNavigation();
+    const [logOut, {error}] = useMutation(logOutMutation);
+    const {navigate} = useNavigation();
 
     async function onPress() {
         let response;
@@ -24,10 +24,10 @@ export default function LogOutButton({buttonStyle}) {
             return ;
         }
 
-        console.log(response);
-
-        navigation.navigate('main');
+        navigate('main');
     }
+
+    if (error) navigate('main');
 
     return (
         <Button
