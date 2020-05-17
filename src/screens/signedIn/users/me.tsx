@@ -1,11 +1,24 @@
-import {Card, ListItem} from "react-native-elements";
-import React from "react";
+import {Button} from "react-native-elements";
+import React, {useCallback, useState} from "react";
 import {useQuery} from "@apollo/client";
 import {meQuery} from "../../../graphql/queries";
+import {RefreshControl, ScrollView, Text, View} from "react-native";
+import MeCard from "../../../components/signedIn/users/meCard";
+import MeEditCard from "../../../components/signedIn/users/meEditCard";
+import {useFocusEffect} from "@react-navigation/native";
+
 export default function Me() {
     const {data, loading, error, refetch, networkStatus} = useQuery(meQuery, {
         notifyOnNetworkStatusChange: true
     });
+
+    const [edit, setEdit] = useState(false);
+
+    useFocusEffect(
+        useCallback(()=>{
+            refetch().then();
+        },[edit])
+    );
 
     if (networkStatus === 4) return null;
 
@@ -15,36 +28,22 @@ export default function Me() {
 
     const {me} = data;
 
+    if (edit) return (
+        <View>
+            <MeEditCard me={me} setEdit={setEdit}/>
+        </View>
+    );
+
     return (
         <ScrollView
             refreshControl={
                 <RefreshControl refreshing={loading} onRefresh={refetch}/>
             }
         >
-            <Card
-                title={"Me: " + me.name}
-            >
-                <ListItem
-                    title={"Email:"}
-                    rightTitle={me.email}
-                    bottomDivider
-                />
-                <ListItem
-                    title={"Phone:"}
-                    rightTitle={me.phone}
-                    bottomDivider
-                />
-                <ListItem
-                    title={"Last Check in"}
-                    bottomDivider
-                />
-                <ListItem
-                    title={"Last Check out"}
-                    bottomDivider
-                />
-            </Card>
+            <Button title={"Edit"} onPress={()=>setEdit(true)}/>
+            <MeCard me={me}/>
         </ScrollView>
     );
 }
 
-import {RefreshControl, ScrollView, Text} from "react-native";
+
