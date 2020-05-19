@@ -21,6 +21,7 @@ export interface order {
     total: number,
     company: company
     orderProducts: [orderProduct]
+    parcels: [parcel]
 }
 
 export interface orderProduct {
@@ -58,6 +59,19 @@ export interface project {
     name: string,
     noTasks: number,
     noTasksCompleted: number,
+}
+
+export interface parcel {
+    id: number,
+    code: string
+    statusHistory: [parcelStatus]
+}
+
+export interface parcelStatus {
+    id: number,
+    location: String,
+    status: String,
+    updateDate: Date
 }
 
 export interface checkIn {

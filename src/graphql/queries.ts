@@ -83,6 +83,10 @@ query($id: Float!){
       title
       completed
     }
+    users{
+        id
+        name
+    }
   }
 }
 `;
@@ -210,8 +214,26 @@ query($id: Float!){
         quantity
         total
     }
+    parcels{
+        code
+    }
   }
 }
+`;
+
+export const parcelInfo_query = gql`
+    query($order: IdInput!, $code: String!){
+      parcelInfo(order: $order, code: $code){
+        courier
+        code
+        statusHistory{
+            id
+          location
+          status
+          updateDate
+        }
+      }
+    }
 `;
 
 export const checkIns_query = gql`

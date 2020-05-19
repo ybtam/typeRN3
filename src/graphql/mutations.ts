@@ -71,6 +71,12 @@ export const createProjectMutation = gql`
     }
 `;
 
+export const setUserToProjectMutation = gql`
+    mutation($project: ProjectInput!, $user:UserInput!){
+      setUserToProject(user: $user, project:$project)
+    }
+`;
+
 export const createTaskMutation = gql`
     mutation($id: Float!, $title: String!){
         createTask(data:{id:$id, title:$title})
@@ -119,6 +125,20 @@ export const addProductToOrderMutation = gql`
 export const setCustomerToOrderMutation = gql`
     mutation($orderId: Float!, $companyId: Float!){
       setCustomerToOrder(data:{orderId:$orderId, companyId: $companyId})
+    }
+`;
+
+export const addShippingDetailsToOrderMutation = gql`
+    mutation($order: IdInput!, $code: String!){
+        addParcel(order: $order, code: $code){
+            code
+        }
+    }
+`;
+
+export const updateParcelInfo = gql`
+    mutation($order: IdInput!, $code: String!){
+      updateParcelInfo(order: $order, code: $code)
     }
 `;
 
