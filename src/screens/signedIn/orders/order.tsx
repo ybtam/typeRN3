@@ -29,6 +29,8 @@ export default function Order({route:{params:{id}}, navigation:{navigate, setOpt
 
     const {order} = data;
 
+    console.log(order);
+
     const renderOrderProduct = ({item:{orderProduct}}:{item:orderProductData}) =>(
         <ListItem
             title={orderProduct.product.code}
@@ -62,11 +64,29 @@ export default function Order({route:{params:{id}}, navigation:{navigate, setOpt
                         rightTitle={order.subtotal.toFixed(2)+ " zł"}
                         bottomDivider
                     />
-                    <ListItem
-                        title={"Delivery"}
-                        rightTitle={order.deliveryCost.toFixed(2) + " zł"}
-                        bottomDivider
-                    />
+                    {
+                        order.delivery
+                            ? <ListItem
+                                title={"Delivery"}
+                                rightTitle={order.deliveryCost.toFixed(2) + " zł"}
+                                onPress={()=>navigate("ParcelInfo", {
+                                    orderId: id,
+                                    parcel: order.parcels[0]
+                                })}
+                                chevron
+                                bottomDivider
+                            />
+                            : <ListItem
+                                title={"Delivery"}
+                                subtitle={"Press to add shipping number"}
+                                onPress={()=>navigate("ShippingScan",{
+                                    orderId: id,
+                                })}
+                                rightTitle={order.deliveryCost.toFixed(2) + " zł"}
+                                bottomDivider
+                            />
+                    }
+
                     <ListItem
                         title={"Total"}
                         rightTitle={order.total.toFixed(2)+ " zł"}
