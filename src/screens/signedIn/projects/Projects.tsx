@@ -6,6 +6,7 @@ import {projectsQuery} from "../../../graphql/queries";
 import {project} from "../../../interfaces";
 import {tabScreenStyle} from "../../../styles";
 import {useFocusEffect} from "@react-navigation/native";
+import ProjectListItem from "../../../components/signedIn/projects/projectListItem";
 
 export default function Projects ({navigation:{navigate}}) {
     const {loading, error, data, refetch, networkStatus} = useQuery(projectsQuery, {
@@ -24,38 +25,6 @@ export default function Projects ({navigation:{navigate}}) {
 
     const {myProjects} = data;
 
-    if (!myProjects) return(
-        <ScrollView refreshControl={<RefreshControl refreshing={loading} onRefresh={refetch}/>}>
-            <View
-                style={tabScreenStyle.container}
-            >
-                <Button
-                    title={"Add Project"}
-                    onPress={()=>navigate("AddProject")}
-                />
-                <Text h3>You have no projects.</Text>
-            </View>
-        </ScrollView>
-    );
-
-    //render item for flatlist
-    const renderItem = ({item}:{item: project}) =>(
-        <ListItem
-            title={item.name}
-            onPress={() => navigate("Project", {
-                id: item.id,
-                name: item.name,
-            })}
-            badge={{
-                value: (item.noTasks-item.noTasksCompleted),
-                badgeStyle: { backgroundColor: "#000000", minHeight: 21, minWidth: 30, },
-                textStyle:{fontSize: 17}
-            }}
-            bottomDivider
-            chevron
-        />
-    );
-
     return(
         <View
             style={tabScreenStyle.container}
@@ -67,8 +36,9 @@ export default function Projects ({navigation:{navigate}}) {
             <Card>
                 <FlatList
                     data={myProjects.map(myProject => ({...myProject, key:myProject.id.toString()}))}
-                    renderItem={renderItem}
+                    renderItem={({item}:{item: project}) => <ProjectListItem project={item}/> }
                     refreshControl={<RefreshControl refreshing={loading} onRefresh={refetch}/>}
+                    ListEmptyComponent={<Text>No Projects</Text>}
                 />
             </Card>
         </View>
