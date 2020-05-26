@@ -42,6 +42,8 @@ export default function UserListItem({user, working, projectId}:args) {
                 }
             })
 
+            console.log(response);
+
             const {setUserToProject} = response.data;
 
             setUserWork(!userWork);

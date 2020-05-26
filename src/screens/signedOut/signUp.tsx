@@ -18,7 +18,11 @@ const defaultState1 = {
     isSubmitting: false,
 };
 
-export default function SignUp({navigation:{navigate}}) {
+export default function SignUp({navigation:{navigate, setOptions}}) {
+
+    setOptions({
+        title: "Sign in"
+    });
 
     const [signUp] = useMutation(signUpMutation);
     const {values, handleChange, setValues} = useForm(defaultState);

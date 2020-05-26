@@ -15,7 +15,11 @@ const defaultState1 = {
     isSubmitting: false,
 };
 
-export default function LogIn({navigation: {navigate}}) {
+export default function LogIn({navigation: {navigate, setOptions}}) {
+
+    setOptions({
+        title: "Log in"
+    });
 
     const [logIn] = useMutation(logInMutation);
     const {values, handleChange, setValues} = useForm(defaultState);
@@ -82,10 +86,7 @@ export default function LogIn({navigation: {navigate}}) {
             <View style={{width: 200, marginTop:10}}>
                 <TextField value={values.email} name="email" placeholder="Email" onChangeText={handleChange}/>
                 <TextField value={values.password} name="password" placeholder="Password" onChangeText={handleChange} secureTextEntry/>
-                <Button title ="Log in" buttonStyle={{marginTop: 10}} onPress={async event=>{
-                    event.preventDefault();
-                    await submit();
-                }}/>
+                <Button title ="Log in" buttonStyle={{marginTop: 10}} onPress={()=>submit()}/>
 
                 <Button title="Sign up" buttonStyle={{marginTop: 10}} onPress={()=> navigate('SignUp')} />
             </View>
